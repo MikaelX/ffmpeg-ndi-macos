@@ -1,3 +1,24 @@
+sudo apt-get update -qq && sudo apt-get -y install \
+  autoconf \
+  automake \
+  build-essential \
+  cmake \
+  git-core \
+  libass-dev \
+  libfreetype6-dev \
+  libsdl2-dev \
+  libtool \
+  libva-dev \
+  libvdpau-dev \
+  libvorbis-dev \
+  libxcb1-dev \
+  libxcb-shm0-dev \
+  libxcb-xfixes0-dev \
+  pkg-config \
+  texinfo \
+  wget \
+  zlib1g-dev libxml2-dev
+
 git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git                     
 cd nv-codec-headers
 make
@@ -25,28 +46,6 @@ wget https://cloud.netfreaks.fr/s/QBin2pfKKwn5rEg/download -O BMD.tgz
 tar xf BMD.tgz
 sudo dpkg -i x86_64/desktop*
 rm -Rf x86_64
-
-sudo apt-get update -qq && sudo apt-get -y install \
-  autoconf \
-  automake \
-  build-essential \
-  cmake \
-  git-core \
-  libass-dev \
-  libfreetype6-dev \
-  libsdl2-dev \
-  libtool \
-  libva-dev \
-  libvdpau-dev \
-  libvorbis-dev \
-  libxcb1-dev \
-  libxcb-shm0-dev \
-  libxcb-xfixes0-dev \
-  pkg-config \
-  texinfo \
-  wget \
-  zlib1g-dev libxml2-dev
- 
 
 mkdir -p ~/bin
 cd ~/ffmpeg_sources && \
