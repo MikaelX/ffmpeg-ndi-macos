@@ -1,3 +1,4 @@
+apt-get update && apt-get -y install sudo
 sudo apt-get update -qq && sudo apt-get -y install \
   autoconf \
   automake \
