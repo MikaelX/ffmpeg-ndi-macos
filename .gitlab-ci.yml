@@ -1,6 +1,6 @@
-deploy_staging:
+build:
     stage: build
-    image: apline/latest
+    image: alpine/latest
     script:
       - sh ./compile.sh
   
