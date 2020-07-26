@@ -1,0 +1,6 @@
+deploy_staging:
+    stage: build
+    image: apline/latest
+    script:
+      - sh ./compile.sh
+  
