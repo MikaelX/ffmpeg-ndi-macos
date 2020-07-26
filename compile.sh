@@ -25,6 +25,8 @@ cd nv-codec-headers
 make
 sudo make install
 
+CORES=`cat /proc/cpuinfo | grep processor | wc -l`
+
 mkdir ~/ffmpeg_sources
 cd ~/ffmpeg_sources
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
@@ -55,7 +57,7 @@ tar xjvf nasm-2.13.03.tar.bz2 && \
 cd nasm-2.13.03 && \
 ./autogen.sh && \
 PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" && \
-make && \
+make -j $CORES && \
 make install
  
 sudo apt-get install yasm libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev \
@@ -66,7 +68,7 @@ git -C aom pull 2> /dev/null || git clone --depth 1 https://aomedia.googlesource
 mkdir -p aom_build && \
 cd aom_build && \
 PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED=off -DENABLE_NASM=on ../aom && \
-PATH="$HOME/bin:$PATH" make && \
+PATH="$HOME/bin:$PATH" make -j $CORES && \
 make install
  
 cd ~/ffmpeg_sources && \
@@ -78,7 +80,7 @@ wget http://xmlsoft.org/sources/libxml2-2.9.9.tar.gz
 tar xf libxml2-2.9.9.tar.gz
 cd libxml2-2.9.9
 ./configure
-make
+make -j $CORES
 _ make install
  
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
@@ -102,7 +104,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-nonfree --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp --enable-libndi_newtek
  
 
-PATH="$HOME/bin:$PATH" make -j4 && \
+PATH="$HOME/bin:$PATH" make -j $CORES && \
 make install && \
-hash -r
-source ~/.profile
+
+ls -lah $HOME/bin
