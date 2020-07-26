@@ -1,6 +1,6 @@
 build:
     stage: build
-    image: alpine:latest
+    image: ubuntu:18.04
     script:
       - sh ./compile.sh
   
