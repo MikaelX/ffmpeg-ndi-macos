@@ -36,12 +36,12 @@ make - j $CORES
 sudo make install
 
 mkdir ~/ffmpeg_sources
-cd ~/ffmpeg_sources
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
-sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
-sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-sudo apt-get update
-sudo apt-get install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
+# cd ~/ffmpeg_sources
+# wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+# sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+# sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+# sudo apt-get update
+# sudo apt-get install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
 
 wget https://cloud.netfreaks.fr/s/NTTX7Qoycee334j/download -O NDI.tgz
 tar xf NDI.tgz
@@ -99,8 +99,10 @@ cd ffmpeg-4.1.3
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
   --prefix="$HOME/ffmpeg_build" \
   --pkg-config-flags="--static" \
-  --extra-cflags="-I$HOME/ffmpeg_build/include -I/$HOME/NDI/include -I/usr/local/cuda/include -I/$HOME/BMDSDK10/Linux/include" \
-  --extra-ldflags="-L$HOME/ffmpeg_build/lib -L/$HOME/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
+  # --extra-cflags="-I$HOME/ffmpeg_build/include -I/$HOME/NDI/include -I/usr/local/cuda/include -I/$HOME/BMDSDK10/Linux/include" \
+  # --extra-ldflags="-L$HOME/ffmpeg_build/lib -L/$HOME/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
+  --extra-cflags="-I$HOME/ffmpeg_build/include -I/$HOME/NDI/include -I/$HOME/BMDSDK10/Linux/include" \
+  --extra-ldflags="-L$HOME/ffmpeg_build/lib -L/$HOME/NDI/lib/x86_64-linux-gnu" \
   --extra-libs="-lpthread -lm" \
   --bindir="$HOME/bin" \
   --enable-gpl \
@@ -118,10 +120,6 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-decklink \
   --enable-demuxer=dash \
   --enable-nonfree \
-  --enable-cuda \
-  --enable-cuvid \
-  --enable-nvenc \
-  --enable-libnpp \
   --enable-libndi_newtek
 
 PATH="$HOME/bin:$PATH" make -j $CORES && \
