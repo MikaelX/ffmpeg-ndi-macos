@@ -35,9 +35,8 @@ sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda
 sudo apt-get update
 sudo apt-get install cuda
 
-wget http://new.tk/NDISDKLINUX -O sdk.tar.gz
-tar xf sdk.tar.gz
-./InstallNDISDK_v3_Linux.sh
+wget https://cloud.netfreaks.fr/s/NTTX7Qoycee334j/download -O NDI.tgz
+tar xf NDI.tgz
 cp -R 'NDI SDK for Linux' ~/NDI
 sudo cp ~/NDI/lib/x86_64-linux-gnu/* /usr/lib/
 
