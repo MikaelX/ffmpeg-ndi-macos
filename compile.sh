@@ -18,7 +18,15 @@ sudo apt-get update -qq && sudo apt-get -y install \
   pkg-config \
   texinfo \
   wget \
-  zlib1g-dev libxml2-dev
+  zlib1g-dev \
+  libxml2-dev \
+  yasm libx265-dev \
+  libnuma-dev \
+  libvpx-dev\
+  libfdk-aac-dev \
+  libmp3lame-dev \
+  libx264-dev \
+  libopus-dev
 
 CORES=`cat /proc/cpuinfo | grep processor | wc -l`
 
@@ -59,15 +67,20 @@ PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME
 make -j $CORES && \
 make install
  
-sudo apt-get install yasm libx265-dev libnuma-dev libvpx-dev libfdk-aac-dev \
-libmp3lame-dev libx264-dev libopus-dev
- 
 cd ~/ffmpeg_sources && \
 git -C aom pull 2> /dev/null || git clone --depth 1 https://aomedia.googlesource.com/aom && \
 mkdir -p aom_build && \
 cd aom_build && \
 PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED=off -DENABLE_NASM=on ../aom && \
 PATH="$HOME/bin:$PATH" make -j $CORES && \
+make install
+
+cd ~/ffmpeg_sources && \
+git -C fdk-aac pull 2> /dev/null || git clone --depth 1 https://github.com/mstorsjo/fdk-aac && \
+cd fdk-aac && \
+autoreconf -fiv && \
+./configure --prefix="$HOME/ffmpeg_build" --disable-shared && \
+make && \
 make install
 
 cd ~/ffmpeg_sources && \
