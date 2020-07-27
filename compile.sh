@@ -29,8 +29,8 @@ sudo apt-get update -qq && sudo apt-get -y install \
   libopus-dev 
 
 PROJDIR=`PWD`
+echo $PROJDIR
 CORES=`cat /proc/cpuinfo | grep processor | wc -l`
-HOME=$PROJDIR
 
 git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git                     
 cd nv-codec-headers
@@ -66,7 +66,7 @@ wget https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/nasm-2.13.03.tar.bz2 && 
 tar xjvf nasm-2.13.03.tar.bz2 && \
 cd nasm-2.13.03 && \
 ./autogen.sh && \
-PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" && \
+PATH="$PROJDIR/bin:$PATH" ./configure --prefix="$PROJDIR/ffmpeg_build" --bindir="$PROJDIR/bin" && \
 make -j $CORES && \
 make install
  
@@ -75,15 +75,15 @@ cd $PROJDIR/ffmpeg_sources && \
 git -C aom pull 2> /dev/null || git clone --depth 1 https://aomedia.googlesource.com/aom && \
 mkdir -p aom_build && \
 cd aom_build && \
-PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED=off -DENABLE_NASM=on ../aom && \
-PATH="$HOME/bin:$PATH" make -j $CORES && \
+PATH="$PROJDIR/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$PROJDIR/ffmpeg_build" -DENABLE_SHARED=off -DENABLE_NASM=on ../aom && \
+PATH="$PROJDIR/bin:$PATH" make -j $CORES && \
 make install
 
 cd $PROJDIR/ffmpeg_sources && \
 git -C fdk-aac pull 2> /dev/null || git clone --depth 1 https://github.com/mstorsjo/fdk-aac && \
 cd fdk-aac && \
 autoreconf -fiv && \
-./configure --prefix="$HOME/ffmpeg_build" --disable-shared && \
+./configure --prefix="$PROJDIR/ffmpeg_build" --disable-shared && \
 make && \
 make install
 
@@ -100,15 +100,15 @@ wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-4.1.3.tar.bz2
 tar xjvf ffmpeg-snapshot.tar.bz2 && \
 cd ffmpeg-4.1.3
  
-PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
-  --prefix="$HOME/ffmpeg_build" \
+PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" ./configure \
+  --prefix="$PROJDIR/ffmpeg_build" \
   --pkg-config-flags="--static" \
-  # --extra-cflags="-I$HOME/ffmpeg_build/include -I/$HOME/NDI/include -I/usr/local/cuda/include -I/$HOME/BMDSDK10/Linux/include" \
-  # --extra-ldflags="-L$HOME/ffmpeg_build/lib -L/$HOME/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
-  --extra-cflags="-I$HOME/ffmpeg_build/include -I/$HOME/NDI/include -I/$HOME/BMDSDK10/Linux/include" \
-  --extra-ldflags="-L$HOME/ffmpeg_build/lib -L/$HOME/NDI/lib/x86_64-linux-gnu" \
+  # --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/usr/local/cuda/include -I/$PROJDIR/BMDSDK10/Linux/include" \
+  # --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
+  --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/$PROJDIR/BMDSDK10/Linux/include" \
+  --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu" \
   --extra-libs="-lpthread -lm" \
-  --bindir="$HOME/bin" \
+  --bindir="$PROJDIR/bin" \
   --enable-gpl \
   --enable-libaom \
   --enable-libass \
@@ -126,7 +126,7 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-nonfree \
   --enable-libndi_newtek
 
-PATH="$HOME/bin:$PATH" make -j $CORES && \
+PATH="$PROJDIR/bin:$PATH" make -j $CORES && \
 make install && \
 
-ls -laRh $HOME
+ls -laRh $PROJDIR
