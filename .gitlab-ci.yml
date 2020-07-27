@@ -3,4 +3,17 @@ build:
     image: ubuntu:18.04
     script:
       - sh ./compile.sh
-  
+    artifacts:
+      paths:
+        - ~/ffmpeg_build/bin
+
+# release:
+#   release_job:
+#     stage: release
+#     image: registry.gitlab.com/gitlab-org/release-cli:latest
+#     script:
+#       - echo 'Release ffmpeg'
+#     release:
+#         tag_name: ffmpeg-ndi-4.3
+#         description: 'FFMPEG NDI'
+          
