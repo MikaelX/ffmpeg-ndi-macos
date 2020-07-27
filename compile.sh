@@ -28,15 +28,19 @@ sudo apt-get update -qq && sudo apt-get -y install \
   libx264-dev \
   libopus-dev 
 
+PROJDIR=`PWD`
 CORES=`cat /proc/cpuinfo | grep processor | wc -l`
+HOME=$PROJDIR
 
 git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git                     
 cd nv-codec-headers
 make - j $CORES
 sudo make install
 
-mkdir ~/ffmpeg_sources
-# cd ~/ffmpeg_sources
+mkdir $PROJDIR/ffmpeg_sources
+mkdir $PROJDIR/bin
+
+# cd $PROJDIR/ffmpeg_sources
 # wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
 # sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
 # sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
@@ -45,10 +49,9 @@ mkdir ~/ffmpeg_sources
 
 wget https://cloud.netfreaks.fr/s/NTTX7Qoycee334j/download -O NDI.tgz
 tar xf NDI.tgz
-cp -R 'NDI SDK for Linux' ~/NDI
-sudo cp ~/NDI/lib/x86_64-linux-gnu/* /usr/lib/
+cp -R 'NDI SDK for Linux' $PROJDIR/NDI
+sudo cp $PROJDIR/NDI/lib/x86_64-linux-gnu/* /usr/lib/
 
-cd ~
 wget https://cloud.netfreaks.fr/s/y74PLEotawbaK5m/download -O BMDSDK10.tgz
 tar xf BMDSDK10.tgz
 
@@ -57,8 +60,8 @@ tar xf BMD.tgz
 sudo dpkg -i x86_64/desktop*
 rm -Rf x86_64
 
-mkdir -p ~/bin
-cd ~/ffmpeg_sources && \
+mkdir -p $PROJDIR/bin
+cd $PROJDIR/ffmpeg_sources && \
 wget https://www.nasm.us/pub/nasm/releasebuilds/2.13.03/nasm-2.13.03.tar.bz2 && \
 tar xjvf nasm-2.13.03.tar.bz2 && \
 cd nasm-2.13.03 && \
@@ -67,7 +70,8 @@ PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME
 make -j $CORES && \
 make install
  
-cd ~/ffmpeg_sources && \
+
+cd $PROJDIR/ffmpeg_sources && \
 git -C aom pull 2> /dev/null || git clone --depth 1 https://aomedia.googlesource.com/aom && \
 mkdir -p aom_build && \
 cd aom_build && \
@@ -75,7 +79,7 @@ PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/f
 PATH="$HOME/bin:$PATH" make -j $CORES && \
 make install
 
-cd ~/ffmpeg_sources && \
+cd $PROJDIR/ffmpeg_sources && \
 git -C fdk-aac pull 2> /dev/null || git clone --depth 1 https://github.com/mstorsjo/fdk-aac && \
 cd fdk-aac && \
 autoreconf -fiv && \
@@ -83,7 +87,7 @@ autoreconf -fiv && \
 make && \
 make install
 
-cd ~/ffmpeg_sources && \
+cd $PROJDIR/ffmpeg_sources && \
 wget http://xmlsoft.org/sources/libxml2-2.9.9.tar.gz && \
 tar xf libxml2-2.9.9.tar.gz && \
 cd libxml2-2.9.9 && \
@@ -91,7 +95,7 @@ cd libxml2-2.9.9 && \
 make -j $CORES && \
 make install
 
-cd ~/ffmpeg_sources && \
+cd $PROJDIR/ffmpeg_sources && \
 wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-4.1.3.tar.bz2 && \
 tar xjvf ffmpeg-snapshot.tar.bz2 && \
 cd ffmpeg-4.1.3

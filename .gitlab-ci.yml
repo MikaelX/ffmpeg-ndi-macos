@@ -5,9 +5,9 @@ build:
       - sh ./compile.sh
     artifacts:
       paths:
-        - /root/ffmpeg_build/bin/ffplay
-        - /root/ffmpeg_build/bin/ffprobe
-        - /root/ffmpeg_build/bin/ffmpeg
+        - ./ffmpeg_build/bin/ffplay
+        - ./ffmpeg_build/bin/ffprobe
+        - ./ffmpeg_build/bin/ffmpeg
 
 # release:
 #   release_job:
