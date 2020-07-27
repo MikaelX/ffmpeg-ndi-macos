@@ -28,7 +28,7 @@ sudo apt-get update -qq && sudo apt-get -y install \
   libx264-dev \
   libopus-dev 
 
-PROJDIR=`PWD`
+PROJDIR=`pwd`
 echo $PROJDIR
 CORES=`cat /proc/cpuinfo | grep processor | wc -l`
 
