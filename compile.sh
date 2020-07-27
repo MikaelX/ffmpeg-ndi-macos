@@ -20,12 +20,12 @@ sudo apt-get update -qq && sudo apt-get -y install \
   wget \
   zlib1g-dev libxml2-dev
 
+CORES=`cat /proc/cpuinfo | grep processor | wc -l`
+
 git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git                     
 cd nv-codec-headers
-make
+make - j $CORES
 sudo make install
-
-CORES=`cat /proc/cpuinfo | grep processor | wc -l`
 
 mkdir ~/ffmpeg_sources
 cd ~/ffmpeg_sources
@@ -70,18 +70,19 @@ cd aom_build && \
 PATH="$HOME/bin:$PATH" cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED=off -DENABLE_NASM=on ../aom && \
 PATH="$HOME/bin:$PATH" make -j $CORES && \
 make install
- 
+
+cd ~/ffmpeg_sources && \
+wget http://xmlsoft.org/sources/libxml2-2.9.9.tar.gz && \
+tar xf libxml2-2.9.9.tar.gz && \
+cd libxml2-2.9.9 && \
+./configure && \
+make -j $CORES && \
+make install
+
 cd ~/ffmpeg_sources && \
 wget -O ffmpeg-snapshot.tar.bz2 https://ffmpeg.org/releases/ffmpeg-4.1.3.tar.bz2 && \
 tar xjvf ffmpeg-snapshot.tar.bz2 && \
 cd ffmpeg-4.1.3
-
-wget http://xmlsoft.org/sources/libxml2-2.9.9.tar.gz
-tar xf libxml2-2.9.9.tar.gz
-cd libxml2-2.9.9
-./configure
-make -j $CORES
-_ make install
  
 PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure \
   --prefix="$HOME/ffmpeg_build" \
@@ -107,4 +108,4 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
 PATH="$HOME/bin:$PATH" make -j $CORES && \
 make install && \
 
-ls -lah $HOME/bin
+ls -laRh $HOME/bin
