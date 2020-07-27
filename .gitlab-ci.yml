@@ -5,7 +5,7 @@ build:
       - sh ./compile.sh
     artifacts:
       paths:
-        - ~/ffmpeg_build/bin
+        - ~/ffmpeg_build/bin/*
 
 # release:
 #   release_job:
