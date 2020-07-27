@@ -26,7 +26,7 @@ sudo apt-get update -qq && sudo apt-get -y install \
   libfdk-aac-dev \
   libmp3lame-dev \
   libx264-dev \
-  libopus-dev
+  libopus-dev 
 
 CORES=`cat /proc/cpuinfo | grep processor | wc -l`
 
@@ -41,7 +41,7 @@ wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/
 sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
 sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 sudo apt-get update
-sudo apt-get install cuda
+sudo apt-get install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
 
 wget https://cloud.netfreaks.fr/s/NTTX7Qoycee334j/download -O NDI.tgz
 tar xf NDI.tgz
@@ -112,10 +112,17 @@ PATH="$HOME/bin:$PATH" PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./conf
   --enable-libopus \
   --enable-libvorbis \
   --enable-libvpx \
-  --enable-libx264 --enable-libxml2 \
-  --enable-libx265 --enable-decklink --enable-demuxer=dash \
-  --enable-nonfree --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp --enable-libndi_newtek
- 
+  --enable-libx264 \
+  --enable-libxml2 \
+  --enable-libx265 \
+  --enable-decklink \
+  --enable-demuxer=dash \
+  --enable-nonfree \
+  --enable-cuda \
+  --enable-cuvid \
+  --enable-nvenc \
+  --enable-libnpp \
+  --enable-libndi_newtek
 
 PATH="$HOME/bin:$PATH" make -j $CORES && \
 make install && \
