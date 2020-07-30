@@ -42,15 +42,15 @@ mkdir $PROJDIR/ffmpeg_sources
 mkdir $PROJDIR/bin
 
 cd $PROJDIR/ffmpeg_sources
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
-echo "dkpg cuda-repo --->"
-sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
-echo "<--- dkpg cuda-repo"
-sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
-sudo apt-get update
-echo "apt install --->"
-echo "31" | sudo apt install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
-echo "<--- apt install"
+# wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+# echo "dkpg cuda-repo --->"
+# sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+# echo "<--- dkpg cuda-repo"
+# sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
+# sudo apt-get update
+# echo "apt install --->"
+# echo "31" | sudo apt install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
+# echo "<--- apt install"
 
 wget https://cloud.netfreaks.fr/s/NTTX7Qoycee334j/download -O NDI.tgz
 tar xf NDI.tgz
@@ -109,8 +109,8 @@ cd ffmpeg-4.1.3
 PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" ./configure \
   --prefix="$PROJDIR/ffmpeg_build" \
   --pkg-config-flags="--static" \
-  --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I$PROJDIR/NDI/include -I$PROJDIR/BMDSDK10/Linux/include -I/usr/local/cuda/include" \
-  --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/lib/ -L/usr/local/cuda/lib64" \
+  --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I$PROJDIR/NDI/include -I$PROJDIR/BMDSDK10/Linux/include" \
+  --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/lib/" \
   --extra-libs="-lpthread -lm" \
   --bindir="$PROJDIR/bin" \
   --enable-gpl \
@@ -128,10 +128,14 @@ PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" 
   --enable-nonfree \
   --enable-libndi_newtek \
   --enable-decklink \
-  --enable-libass \
-  --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp
+  --enable-libass 
+
 
 PATH="$PROJDIR/bin:$PATH" make -j $CORES && \
 make install && \
 
 ls -laRh $PROJDIR
+
+  # --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I$PROJDIR/NDI/include -I$PROJDIR/BMDSDK10/Linux/include -I/usr/local/cuda/include" \
+  # --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/lib/ -L/usr/local/cuda/lib64" \
+    # --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp
