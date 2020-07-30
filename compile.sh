@@ -43,10 +43,14 @@ mkdir $PROJDIR/bin
 
 cd $PROJDIR/ffmpeg_sources
 wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+echo "dkpg cuda-repo --->"
 sudo dpkg -i cuda-repo-ubuntu1804_10.0.130-1_amd64.deb
+echo "<--- dkpg cuda-repo"
 sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 sudo apt-get update
-sudo apt-get install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
+echo "apt install --->"
+echo "31" | sudo apt install -y cuda cuda-npp-10-0 cuda-npp-dev-10-0 
+echo "<--- apt install"
 
 wget https://cloud.netfreaks.fr/s/NTTX7Qoycee334j/download -O NDI.tgz
 tar xf NDI.tgz
