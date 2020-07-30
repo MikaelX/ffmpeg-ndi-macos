@@ -103,11 +103,9 @@ cd ffmpeg-4.1.3
 PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" ./configure \
   --prefix="$PROJDIR/ffmpeg_build" \
   --pkg-config-flags="--static" \
-  # --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/usr/local/cuda/include -I/$PROJDIR/BMDSDK10/Linux/include" \
-  # --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
   --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/$PROJDIR/BMDSDK10/Linux/include" \
   --extra-ldflags="-static -L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu" \
-  --extra-libs="-static -L/usr/lib -lpthread -lm" \
+  --extra-libs="-static -lpthread -lm" \
   --bindir="$PROJDIR/bin" \
   --enable-gpl \
   --enable-libaom \
@@ -130,3 +128,6 @@ PATH="$PROJDIR/bin:$PATH" make -j $CORES && \
 make install && \
 
 ls -laRh $PROJDIR
+
+  # --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/usr/local/cuda/include -I/$PROJDIR/BMDSDK10/Linux/include" \
+  # --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
