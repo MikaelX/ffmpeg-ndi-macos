@@ -27,7 +27,9 @@ sudo apt-get update -qq && sudo apt-get -y install \
   libfdk-aac-dev \
   libmp3lame-dev \
   libx264-dev \
-  libopus-dev 
+  libopus-dev \
+  libavahi-client-dev \
+  libavahi-common-dev
 
 PROJDIR=`pwd`
 echo $PROJDIR
