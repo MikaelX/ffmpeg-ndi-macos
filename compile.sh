@@ -136,8 +136,6 @@ PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" 
 PATH="$PROJDIR/bin:$PATH" make -j $CORES && \
 make install && \
 
-ls -laRh $PROJDIR
-
   # --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I$PROJDIR/NDI/include -I$PROJDIR/BMDSDK10/Linux/include -I/usr/local/cuda/include" \
   # --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/lib/ -L/usr/local/cuda/lib64" \
     # --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp
