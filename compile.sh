@@ -20,7 +20,8 @@ sudo apt-get update -qq && sudo apt-get -y install \
   wget \
   zlib1g-dev \
   libxml2-dev \
-  yasm libx265-dev \
+  yasm \
+  libx265-dev \
   libnuma-dev \
   libvpx-dev\
   libfdk-aac-dev \
@@ -54,6 +55,7 @@ sudo cp $PROJDIR/NDI/lib/x86_64-linux-gnu/* /usr/lib/
 
 wget https://cloud.netfreaks.fr/s/y74PLEotawbaK5m/download -O BMDSDK10.tgz
 tar xf BMDSDK10.tgz
+cp -R 'BMDSDK10' $PROJDIR/BMDSDK10
 
 wget https://cloud.netfreaks.fr/s/QBin2pfKKwn5rEg/download -O BMD.tgz
 tar xf BMD.tgz
@@ -103,13 +105,12 @@ cd ffmpeg-4.1.3
 PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" ./configure \
   --prefix="$PROJDIR/ffmpeg_build" \
   --pkg-config-flags="--static" \
-  --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/$PROJDIR/BMDSDK10/Linux/include" \
-  --extra-ldflags="-static -L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu" \
-  --extra-libs="-static -lpthread -lm" \
+  --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I$PROJDIR/NDI/include -I$PROJDIR/BMDSDK10/Linux/include -I/usr/local/cuda/include" \
+  --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/lib/ -L/usr/local/cuda/lib64" \
+  --extra-libs="-lpthread -lm" \
   --bindir="$PROJDIR/bin" \
   --enable-gpl \
   --enable-libaom \
-  --enable-libass \
   --enable-libfdk-aac \
   --enable-libfreetype \
   --enable-libmp3lame \
@@ -119,15 +120,14 @@ PATH="$PROJDIR/bin:$PATH" PKG_CONFIG_PATH="$PROJDIR/ffmpeg_build/lib/pkgconfig" 
   --enable-libx264 \
   --enable-libxml2 \
   --enable-libx265 \
-  --enable-decklink \
   --enable-demuxer=dash \
   --enable-nonfree \
-  --enable-libndi_newtek
+  --enable-libndi_newtek \
+  --enable-decklink \
+  --enable-libass \
+  --enable-cuda --enable-cuvid --enable-nvenc --enable-libnpp
 
 PATH="$PROJDIR/bin:$PATH" make -j $CORES && \
 make install && \
 
 ls -laRh $PROJDIR
-
-  # --extra-cflags="-I$PROJDIR/ffmpeg_build/include -I/$PROJDIR/NDI/include -I/usr/local/cuda/include -I/$PROJDIR/BMDSDK10/Linux/include" \
-  # --extra-ldflags="-L$PROJDIR/ffmpeg_build/lib -L/$PROJDIR/NDI/lib/x86_64-linux-gnu -L/usr/local/cuda/lib64" \
